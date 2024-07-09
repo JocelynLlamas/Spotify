@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -14,12 +13,21 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  constructor(private oauthService: OAuthService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get('https://api.spotify.com/v1/me').subscribe(profile => {
-      this.userProfile = profile;
-    });
+    const accessToken = localStorage.getItem('spotify_access_token');
+    console.log(accessToken)
+    if (accessToken) {
+      this.http.get('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }).subscribe(profile => {
+        console.log(profile);
+        this.userProfile = profile;
+      });
+    }
   }
 
   toggleDarkMode() {

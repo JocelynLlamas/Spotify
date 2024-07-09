@@ -1,20 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  template: '<button mat-raised-button (click)="login()">Login with Spotify</button>'
 })
-export class LoginComponent implements OnInit {
-
-  constructor(private oauthService: OAuthService) { }
-
-  ngOnInit(): void {
-  }
+export class LoginComponent {
+  clientId = '81c66323b65443559060f6de2044101d'; // Tu client ID de Spotify
+  redirectUri = 'http://localhost:4200/callback';
 
   login() {
-    this.oauthService.initImplicitFlow();
+    const scopes = 'user-read-private user-read-email user-library-read playlist-read-private';
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=token&redirect_uri=${encodeURIComponent(this.redirectUri)}&scope=${encodeURIComponent(scopes)}`;
   }
-
 }
