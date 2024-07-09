@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>SpotIt</span>
+    <span class="spacer"></span>
+    <mat-slide-toggle (change)="toggleDarkMode()">Dark Mode</mat-slide-toggle>
+    <input matInput placeholder="Search">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <img [src]="userProfile?.images[0]?.url" alt="Profile Image" class="profile-img">
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>{{ userProfile?.display_name }}</button>
+    </mat-menu>
+</mat-toolbar>
